@@ -1,5 +1,6 @@
 package ru.greg3d;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -11,6 +12,8 @@ import ru.greg3d.pages.HomePage;
 public class HomePageTest extends TestBase {
 
 	HomePage homepage;
+	private String baseUrl; 	// stubb
+	private WebDriver driver; 	//stubb
 	
 	@Parameters({ "path" })
 	@BeforeClass

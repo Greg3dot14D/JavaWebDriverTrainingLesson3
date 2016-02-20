@@ -6,8 +6,8 @@ import ru.st.selenium.applogic.ApplicationManager;
 import ru.st.selenium.applogic.FilmHelper;
 import ru.st.selenium.applogic.NavigationHelper;
 import ru.st.selenium.applogic.UserHelper;
-import ru.greg3d.TracingWebDriver;
 import ru.greg3d.browsers.BrowserDriver;
+import ru.greg3d.browsers.TracingWebDriver;
 import ru.greg3d.util.*;
 
 public class ApplicationManager1 implements ApplicationManager {
@@ -20,23 +20,7 @@ public class ApplicationManager1 implements ApplicationManager {
 	private String baseUrl;
 
 	public ApplicationManager1() {
-		// baseUrl = PropertyLoader.loadProperty("site.url");
-		// String gridHubUrl = PropertyLoader.loadProperty("grid2.hub");
-		//
-		// Browser browser = new Browser();
-		// browser.setName(PropertyLoader.loadProperty("browser.name"));
-		// browser.setVersion(PropertyLoader.loadProperty("browser.version"));
-		// browser.setPlatform(PropertyLoader.loadProperty("browser.platform"));
-		//
-		// String username = PropertyLoader.loadProperty("user.username");
-		// String password = PropertyLoader.loadProperty("user.password");
-		//
-		// driver = WebDriverFactory.getInstance(gridHubUrl, browser, username,
-		// password);
-
 		this.baseUrl = PropertyLoader.loadProperty("site.url");
-		// this.driver =
-		// BrowserDriver.getEventFiringWebDriver(BrowserDriver.newDriver());
 		driver = new TracingWebDriver(BrowserDriver.getEventFiringWebDriver(BrowserDriver.newDriver()))
 				.getWrappedDriver();
 		userHelper = new UserHelper1(this);

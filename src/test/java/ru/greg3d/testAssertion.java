@@ -1,11 +1,9 @@
 package ru.greg3d;
 
+import org.testng.Assert;
 import org.testng.annotations.AfterGroups;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
-
-import ru.greg3d.asserts.Assert;
 
 public class testAssertion {
 
@@ -22,6 +20,7 @@ public class testAssertion {
 	@Test(groups="test")
 	public void test() {
 		//Assert.ignoreEquals(1, 2, "123");
+		Assert.assertFalse(true);
 		System.out.println("test - test");
 	}
 	

@@ -20,6 +20,8 @@ public class Lesson2TestComplect extends TestBase {
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 		
+	private String baseUrl; 	// stubb
+	private WebDriver driver; 	//stubb
 	public static Logger LOG = LoggerFactory.getLogger(Lesson2TestComplect.class);
 
 	private HashMap<String, fieldLocator> _FilmFields = new HashMap<String, fieldLocator>();

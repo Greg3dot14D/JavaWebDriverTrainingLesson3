@@ -1,4 +1,4 @@
-package ru.greg3d;
+package ru.greg3d.browsers;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;

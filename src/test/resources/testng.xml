@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Tests" verbose="5" data-provider-thread-count="1">
-	<test name="Test1">
+<!--suite name="Tests" verbose="5" data-provider-thread-count="1"-->
+    <suite name="Tests" verbose="3" parallel="tests" thread-count="2">
+	<test verbose="2" name="TestAdd">
 		<parameter name="path" value="/"/>
 		<classes>
-		    <class name="ru.greg3d.Lesson2TestComplect"/>
+		    <class name="ru.greg3d.Lesson3TestAdd"/>
 		</classes>
-	</test>  
+	</test>
+	<test verbose="2" name="TestDeleteSearch">
+		<parameter name="path" value="/"/>
+		<classes>
+		    <class name="ru.greg3d.Lesson3TestDeleteSearch"/>
+		</classes>
+	</test> 
 </suite>

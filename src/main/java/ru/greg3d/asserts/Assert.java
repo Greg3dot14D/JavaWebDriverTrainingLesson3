@@ -15,6 +15,14 @@ public abstract class Assert extends org.testng.Assert {
 		}
 	}
 	
+	public static void ignoreFalse(boolean condition, String arg0){
+		try{
+			org.testng.Assert.assertFalse(condition, arg0);
+		}catch(AssertionError e){
+			throw new SkipException(e.getMessage());
+		}
+	}
+	
 	public static void ignoreEquals(double actual, double expected, String arg0){
 		try{
 			org.testng.Assert.assertEquals(actual , expected, arg0);

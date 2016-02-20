@@ -1,5 +1,5 @@
-eclipse.preferences.version=1
+#Sat Feb 20 23:56:55 MSK 2016
 org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.7
-org.eclipse.jdt.core.compiler.compliance=1.7
-org.eclipse.jdt.core.compiler.problem.forbiddenReference=warning
+eclipse.preferences.version=1
 org.eclipse.jdt.core.compiler.source=1.7
+org.eclipse.jdt.core.compiler.compliance=1.7

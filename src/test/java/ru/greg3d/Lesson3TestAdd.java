@@ -3,7 +3,6 @@ package ru.greg3d;
 import java.util.Calendar;
 import java.util.Random;
 
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -30,17 +29,22 @@ public class Lesson3TestAdd extends doLogin {
 		int recordsCount = app.getFilmHelper().getRecordsCount();
 
 		app.getNavigationHelper().gotoAddNewFilmForm();
-		app.getFilmHelper()
-				.create(new Film().setTitle("new Title_" + Calendar.getInstance().getTimeInMillis())
-						.setYear(1950 + new Random().nextInt(65))
-						.setNotes("new Notes " + Calendar.getInstance().getTimeInMillis())
-						.setRating(new Random().nextInt(10)).setDuration(60 + new Random().nextInt(60)));
+		
+		Film film = new Film().setTitle("new Title_" + Calendar.getInstance().getTimeInMillis())
+				.setYear(1950 + new Random().nextInt(65))
+				.setNotes("new Notes " + Calendar.getInstance().getTimeInMillis())
+				.setRating(new Random().nextInt(10)).setDuration(60 + new Random().nextInt(60));
+
+		
+		app.getFilmHelper().create(film);
 		// проверяем - перешли ли с ссылки ? http://localhost/php4dvd/?go=add
-		Assert.assertTrue(app.getFilmHelper().FilmWasAdded(), "new record was not added");
+		Assert.assertTrue(app.getFilmHelper().filmWasAdded(), "new record was not added");
 		// выходим по href в основное окно
 		app.getNavigationHelper().gotoHome();
 		// сравнили новое число записей с recordsCount
 		Assert.assertEquals(app.getFilmHelper().getRecordsCount(), recordsCount + 1, "records count was not changed");
+		// проверяем наличие фильма в списке фильмов
+		Assert.assertTrue(app.getFilmHelper().filmListContains(film), "new film not found in grid");
 	}
 
 	// *
@@ -50,7 +54,7 @@ public class Lesson3TestAdd extends doLogin {
 	public void addNotAllNecessaryFieldsRecord(final Film film) {
 		app.getNavigationHelper().gotoAddNewFilmForm();
 		app.getFilmHelper().create(film);
-		Assert.assertTrue(app.getFilmHelper().FilmWasNotAdded(),
+		Assert.assertTrue(app.getFilmHelper().filmWasNotAdded(),
 				"not all necessery fields was filled, but film was added\nFilmFieldsValues: "
 						+ film.getFilmFieldsValues());
 	}

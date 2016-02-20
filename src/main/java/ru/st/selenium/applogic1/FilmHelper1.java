@@ -2,17 +2,9 @@ package ru.st.selenium.applogic1;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.seleniumhq.jetty7.util.log.Log;
-
-import com.thoughtworks.selenium.Wait;
-
 import ru.st.selenium.applogic.FilmHelper;
 import ru.st.selenium.model.Film;
-import ru.st.selenium.pages.HomePage;
 import ru.greg3d.asserts.Assert;
 import ru.greg3d.util.*;
 
@@ -24,7 +16,6 @@ public class FilmHelper1 extends DriverBasedHelper implements FilmHelper {
 
 	@Override
 	public void create(Film film) {
-		// TODO Auto-generated method stub
 		pages.addFilmPage
 			.durationInputClear()
 			.durationInput(film.getDuration())
@@ -39,9 +30,8 @@ public class FilmHelper1 extends DriverBasedHelper implements FilmHelper {
 
 	@Override
 	public void delete(Film film) {
-		// TODO Auto-generated method stub
 
-		int indexOfFilm = getIndexOfFilm(getFilmsListFormGrid(), film.getTitle());
+		int indexOfFilm = getIndexOfFilm(getFilmListFormGrid(), film.getTitle());
 		
 		// выбираем запись с индексом = 'index + 1' в списке фильмов
 		pages.homePage.selectRecordByIndex(indexOfFilm + 1);
@@ -64,32 +54,32 @@ public class FilmHelper1 extends DriverBasedHelper implements FilmHelper {
 	
 	
 	@Override
-	public List<Film> search(String title) {
-		// TODO Auto-generated method stub
+	public List<Film> search(String searchArg) {
 		// ввести название первой записи в поле поиска
 		pages.homePage
 			.searhInputClear()
-			.searhInputSendKeys(title);
+			.searhInputSendKeys(searchArg);
 
 		WaitUtils.WaitPageIsNotActive(driver);
 		WaitUtils.WaitPageIsActive(driver);
 		
-		return getFilmsListFormGrid();
+		return getFilmListFormGrid();
 		
 	}
 
+	// проверяем, что фильм отсутствует в списке
 	@Override
 	public boolean filmWasDeleted(Film inFilm){
-		for(Film film: getFilmsListFormGrid()){
+		for(Film film: getFilmListFormGrid()){
 			if(film.getTitle().equals(inFilm.getTitle()))
 				return false;
 		}
 		return true;
 	}
 	
-	//@Override
-	//public List<Film> getFilmsListFormGrid(){
-	private List<Film> getFilmsListFormGrid(){
+	// получаем полный список фильмов из грида
+	@Override
+	public List<Film> getFilmListFormGrid(){
 		List<WebElement> list = pages.homePage.getFilmTitleWebElementList();
 		List<Film> films = new ArrayList<Film>();
 		
@@ -99,6 +89,36 @@ public class FilmHelper1 extends DriverBasedHelper implements FilmHelper {
 		return films;
 	}
 	
+	// список фильмов содержит фильм (проверка производится по полю 'title')
+	@Override
+	public boolean filmListContains(List<Film> films, Film searchFilm){
+		for(Film film: films){
+			if(film.getTitle().contains(searchFilm.getTitle()))
+				return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean filmListContains(Film searchFilm){
+		for(Film film: getFilmListFormGrid()){
+			if(film.getTitle().contains(searchFilm.getTitle()))
+				return true;
+		}
+		return false;
+	}
+	
+	// возвращает первую запись из списка фильмов, которая не содержит title
+	@Override
+	public String searchNotValidTitleInFilmList(List<Film> films, String title){
+		for(Film film: films){
+			if(!film.getTitle().contains(title))
+				return film.getTitle();
+		}
+		return null;
+	}
+	
+	
 	@Override
 	public Film getFilmFromGrigByIndex(int index) {
 		List<WebElement> list = pages.homePage.getFilmTitleWebElementList();
@@ -107,25 +127,26 @@ public class FilmHelper1 extends DriverBasedHelper implements FilmHelper {
 
 	@Override
 	public void clearFilter() {
-		// TODO Auto-generated method stub
 		pages.homePage.searhInputClear();
 	}
 
 	@Override
 	public int getRecordsCount() {
-		// TODO Auto-generated method stub
 		return pages.homePage.getFilmTitleWebElementList().size();
 	}
 
 	@Override
-	public boolean FilmWasNotAdded() {
-		// TODO Auto-generated method stub
+	public boolean filmWasNotAdded() {
 		return pages.addFilmPage.waitPageLoaded();
 	}
 	
 	@Override
-	public boolean FilmWasAdded() {
-		// TODO Auto-generated method stub
+	public boolean filmWasAdded() {
 		return pages.moviePage.waitPageLoaded();
+	}
+
+	@Override
+	public boolean gridIsEmpty() {
+		return (pages.homePage.getFilmTitleWebElementList().size() == 0 ? true: false);
 	}
 }
