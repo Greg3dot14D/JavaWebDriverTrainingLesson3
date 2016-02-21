@@ -92,8 +92,8 @@
         <env>remote_firefox</env>
         <user.username></user.username>
         <user.password></user.password>
-        <grid2.hub></grid2.hub>
-        <site.url></site.url>
+        <grid2.hub>http://192.168.21.2:4444/wd/hub</grid2.hub>
+        <site.url>http://192.168.21.2</site.url>
         <browser.name>firefox</browser.name>
         <browser.version></browser.version>
         <browser.platform></browser.platform>
@@ -102,6 +102,19 @@
         <activeByDefault>true</activeByDefault>
       </activation>
     </profile>
+    <profile>
+      <id>firefox</id>
+      <properties>
+        <env>firefox</env>
+        <user.username></user.username>
+        <user.password></user.password>
+        <grid2.hub></grid2.hub>
+        <site.url></site.url>
+        <browser.name>firefox</browser.name>
+        <browser.version></browser.version>
+        <browser.platform></browser.platform>
+      </properties>
+    </profile>    
     <profile>
       <id>dev</id>
       <properties>
