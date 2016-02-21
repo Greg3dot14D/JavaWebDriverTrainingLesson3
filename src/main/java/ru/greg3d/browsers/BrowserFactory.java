@@ -49,6 +49,8 @@ public class BrowserFactory {
 
 		String gridHubUrl = PropertyLoader.loadProperty("grid2.hub");
 
+		System.out.println("gridHubUrl -" + gridHubUrl);
+		
 		//DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setBrowserName(PropertyLoader.loadProperty("browser.name"));
 		capabilities.setVersion(PropertyLoader.loadProperty("browser.version"));

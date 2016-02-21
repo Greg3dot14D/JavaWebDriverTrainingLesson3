@@ -93,7 +93,7 @@
         <user.username></user.username>
         <user.password></user.password>
         <grid2.hub>http://192.168.21.2:4444/wd/hub</grid2.hub>
-        <site.url>http://192.168.21.2</site.url>
+        <site.url>http://192.168.21.2/php4dvd</site.url>
         <browser.name>firefox</browser.name>
         <browser.version></browser.version>
         <browser.platform></browser.platform>
