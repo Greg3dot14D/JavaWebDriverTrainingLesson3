@@ -2,11 +2,9 @@ package ru.st.selenium.applogic1;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.openqa.selenium.WebElement;
 import ru.st.selenium.applogic.FilmHelper;
 import ru.st.selenium.model.Film;
 import ru.greg3d.asserts.Assert;
-import ru.greg3d.util.*;
 
 public class FilmHelper1 extends DriverBasedHelper implements FilmHelper {
 
@@ -30,21 +28,18 @@ public class FilmHelper1 extends DriverBasedHelper implements FilmHelper {
 
 	@Override
 	public void delete(Film film) {
-
-		int indexOfFilm = getIndexOfFilm(getFilmListFormGrid(), film.getTitle());
-		
-		// выбираем запись с индексом = 'index + 1' в списке фильмов
-		pages.homePage.selectRecordByIndex(indexOfFilm + 1);
+		// выбираем запись с номером = 'index + 1' в списке фильмов
+		pages.homePage.selectRecordByIndex(getIndexOfFilm(getFilmListFormGrid(), film) + 1);
 		// дожидаемся открытие формы moviePage
-		Assert.ignoreTrue(pages.moviePage.waitPageLoaded(), "moviePage was not open");
+		Assert.assertTrue(pages.moviePage.waitPageLoaded(), "moviePage was not open");
 		// удаляем запись
-		pages.moviePage.imgRemoveClick();
-		//pages.defaultPage.clickHomeHref();
+		pages.moviePage.imgRemoveClick().acceptRemove();
 		// дожидаемся открытие формы homePage
-		Assert.ignoreTrue(pages.homePage.waitPageLoaded(), "homePage was not open");
+		Assert.assertTrue(pages.homePage.waitPageLoaded(), "homePage was not open");
 	}
 
-	private int getIndexOfFilm(List<Film> films, String title){
+	private int getIndexOfFilm(List<Film> films, Film film){
+		String title = film.getTitle();
 		for(int i = 0; i < films.size(); i ++ ){
 			if(films.get(i).getTitle().equals(title))
 				return i;
@@ -58,54 +53,41 @@ public class FilmHelper1 extends DriverBasedHelper implements FilmHelper {
 		// ввести название первой записи в поле поиска
 		pages.homePage
 			.searhInputClear()
-			.searhInputSendKeys(searchArg);
-
-		WaitUtils.WaitPageIsNotActive(driver);
-		WaitUtils.WaitPageIsActive(driver);
-		
+			.searhInputSendKeys(searchArg)
+			.waitPageRefreshed();
 		return getFilmListFormGrid();
-		
 	}
 
-	// проверяем, что фильм отсутствует в списке
-	@Override
-	public boolean filmWasDeleted(Film inFilm){
-		for(Film film: getFilmListFormGrid()){
-			if(film.getTitle().equals(inFilm.getTitle()))
-				return false;
-		}
-		return true;
-	}
+
 	
 	// получаем полный список фильмов из грида
-	@Override
-	public List<Film> getFilmListFormGrid(){
-		List<WebElement> list = pages.homePage.getFilmTitleWebElementList();
+	private List<Film> getFilmListFormGrid(){
+//		List<WebElement> list = pages.homePage.getFilmTitleWebElementList();
+//		List<Film> films = new ArrayList<Film>();
+//		
+//		for (WebElement element : list) {
+//			films.add(new Film().setTitle(element.getText()));
+//		}
 		List<Film> films = new ArrayList<Film>();
-		
-		for (WebElement element : list) {
-			films.add(new Film().setTitle(element.getText()));
+		for (String title : pages.homePage.getFilmTitleList()) {
+			films.add(new Film().setTitle(title));
 		}
 		return films;
 	}
 	
 	// список фильмов содержит фильм (проверка производится по полю 'title')
-	@Override
-	public boolean filmListContains(List<Film> films, Film searchFilm){
+	private boolean filmListContains(List<Film> films, Film searchFilm){
 		for(Film film: films){
-			if(film.getTitle().contains(searchFilm.getTitle()))
+			if(film.getTitle().equalsIgnoreCase(searchFilm.getTitle()))
 				return true;
 		}
 		return false;
 	}
 	
+	// список фильмов содержит фильм (проверка производится по полю 'title')
 	@Override
-	public boolean filmListContains(Film searchFilm){
-		for(Film film: getFilmListFormGrid()){
-			if(film.getTitle().contains(searchFilm.getTitle()))
-				return true;
-		}
-		return false;
+	public boolean filmListContains(Film film){
+		return filmListContains(getFilmListFormGrid(), film);
 	}
 	
 	// возвращает первую запись из списка фильмов, которая не содержит title
@@ -118,20 +100,22 @@ public class FilmHelper1 extends DriverBasedHelper implements FilmHelper {
 		return null;
 	}
 	
-	
 	@Override
 	public Film getFilmFromGrigByIndex(int index) {
-		List<WebElement> list = pages.homePage.getFilmTitleWebElementList();
-		return (list.size() > 0 ? new Film().setTitle(list.get(index).getText()) : null);
+		//List<WebElement> list = pages.homePage.getFilmTitleWebElementList();
+		//return (list.size() > 0 ? new Film().setTitle(list.get(index).getText()) : null);
+		List<String> list = pages.homePage.getFilmTitleList();
+		return (list.size() > 0 ? new Film().setTitle(list.get(index)) : null);
+		
 	}
 
 	@Override
 	public void clearFilter() {
-		pages.homePage.searhInputClear();
+		pages.homePage.searhInputClear().waitPageRefreshed();
 	}
 
 	@Override
-	public int getRecordsCount() {
+	public int getRecordCount() {
 		return pages.homePage.getFilmTitleWebElementList().size();
 	}
 

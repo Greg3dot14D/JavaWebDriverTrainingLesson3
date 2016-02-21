@@ -26,14 +26,16 @@ public class Lesson3TestAdd extends doLogin {
 	@Test
 	public void addValidRecord() {
 		// Сохранили число записей до добавления фильма
-		int recordsCount = app.getFilmHelper().getRecordsCount();
+		int recordCount = app.getFilmHelper().getRecordCount();
 
-		app.getNavigationHelper().gotoAddNewFilmForm();
+		app.getNavigationHelper().gotoAddNewFilmPage();
 		
-		Film film = new Film().setTitle("new Title_" + Calendar.getInstance().getTimeInMillis())
+		Film film = new Film()
+				.setTitle("new Title_" + Calendar.getInstance().getTimeInMillis())
 				.setYear(1950 + new Random().nextInt(65))
 				.setNotes("new Notes " + Calendar.getInstance().getTimeInMillis())
-				.setRating(new Random().nextInt(10)).setDuration(60 + new Random().nextInt(60));
+				.setRating(new Random().nextInt(10))
+				.setDuration(60 + new Random().nextInt(60));
 
 		
 		app.getFilmHelper().create(film);
@@ -41,8 +43,8 @@ public class Lesson3TestAdd extends doLogin {
 		Assert.assertTrue(app.getFilmHelper().filmWasAdded(), "new record was not added");
 		// выходим по href в основное окно
 		app.getNavigationHelper().gotoHome();
-		// сравнили новое число записей с recordsCount
-		Assert.assertEquals(app.getFilmHelper().getRecordsCount(), recordsCount + 1, "records count was not changed");
+		// сравнили новое число записей с recordCount
+		Assert.assertEquals(app.getFilmHelper().getRecordCount(), recordCount + 1, "record count was not changed");
 		// проверяем наличие фильма в списке фильмов
 		Assert.assertTrue(app.getFilmHelper().filmListContains(film), "new film not found in grid");
 	}
@@ -52,7 +54,7 @@ public class Lesson3TestAdd extends doLogin {
 	// *
 	@Test(dataProvider = "inValidFieldsFilmsDataProvider")
 	public void addNotAllNecessaryFieldsRecord(final Film film) {
-		app.getNavigationHelper().gotoAddNewFilmForm();
+		app.getNavigationHelper().gotoAddNewFilmPage();
 		app.getFilmHelper().create(film);
 		Assert.assertTrue(app.getFilmHelper().filmWasNotAdded(),
 				"not all necessery fields was filled, but film was added\nFilmFieldsValues: "

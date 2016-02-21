@@ -11,17 +11,18 @@ import ru.st.selenium.model.*;
 public class Lesson3TestDeleteSearch extends doLogin {
 
 	//*
-	//* в начале каждого теста идем на домашнюю страницу
+	//* в начале каждого теста идем на домашнюю страницу, и очищаем поле фильтра
 	//*
 	@BeforeMethod
 	private void doGotoHome() {
 		app.getNavigationHelper().gotoHome();
+		app.getFilmHelper().clearFilter();
 	}
 
 	//*
 	//* очищаем после каждого теста поле search
 	//*
-	@AfterMethod()
+	//@AfterMethod()
 	private void clearFilter() {
 		app.getFilmHelper().clearFilter();
 	}
@@ -35,7 +36,7 @@ public class Lesson3TestDeleteSearch extends doLogin {
 		// удаляем этот фильм
 		app.getFilmHelper().delete(film);
 		// проверяем - удален ли он в списке
-		Assert.assertTrue(app.getFilmHelper().filmWasDeleted(film), "record was not deleted, film: " + film.getFilmFieldsValues() + " was not expected in grid");
+		Assert.assertFalse(app.getFilmHelper().filmListContains(film), "record was not deleted, film: " + film.getFilmFieldsValues() + " was not expected in grid");
 	}
 
 	//*
@@ -51,8 +52,8 @@ public class Lesson3TestDeleteSearch extends doLogin {
 		// получаем список найденных фильмов
 		List<Film> films = app.getFilmHelper().search(searchArg);
 		// убеждаемся, что список не пуст
-		//Assert.assertNotEquals(films.size(), 0);
-		Assert.assertFalse(app.getFilmHelper().gridIsEmpty(),"grid is empty, searchArg -'" + searchArg + "'");
+		//Assert.assertFalse(app.getFilmHelper().gridIsEmpty(),"grid is empty, searchArg -'" + searchArg + "'");
+		Assert.assertNotEquals(films.size(), 0, "searched list is empty, searchArg -'" + searchArg + "'");
 		// убеждаемся, что все записи в списке содержат аргумент поиска
 		Assert.assertNull(app.getFilmHelper().searchNotValidTitleInFilmList(films, searchArg), "searched films list contains not valid value. searchArg - '" + searchArg + "'");
 	}

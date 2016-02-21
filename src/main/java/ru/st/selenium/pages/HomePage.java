@@ -2,6 +2,7 @@ package ru.st.selenium.pages;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -55,6 +56,14 @@ public class HomePage extends DefaultPage {
 		return filmTitleList;
 	}
 
+	public List<String> getFilmTitleList(){
+		List<String> titleList = new ArrayList<String>();
+		for(WebElement element: filmTitleList){
+			titleList.add(element.getText());
+		}
+		return titleList;
+	}
+	
 	public String getH1() {
 		return h1Element.getText();
 	}
@@ -75,11 +84,9 @@ public class HomePage extends DefaultPage {
 			e.printStackTrace();
 		}
 		searhInput.sendKeys(Keys.DELETE + "" + Keys.RETURN);
-		
 		// этот способ ожидания мне не нравится (не нраивтся так же, что иногда вставляю его явно в коде в нужных местах), но он работает :-(
-		WaitUtils.WaitPageIsNotActive(driver);
-		WaitUtils.WaitPageIsActive(driver);
-		
+		//WaitUtils.WaitPageIsNotActive(driver);
+		//WaitUtils.WaitPageIsActive(driver);
 		return this;
 	}
 

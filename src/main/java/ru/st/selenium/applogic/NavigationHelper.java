@@ -12,7 +12,5 @@ public interface NavigationHelper {
 
 	void gotoHome();
 
-	void gotoAddNewFilmForm();
-	
-	boolean addFilmPageIsOpen();
+	void gotoAddNewFilmPage();
 }

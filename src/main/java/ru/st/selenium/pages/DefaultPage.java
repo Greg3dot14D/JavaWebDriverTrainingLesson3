@@ -19,7 +19,7 @@ public class DefaultPage extends AnyPage {
 	}
 
 	protected void anyInputClear(WebElement element) {
-		if (element.getAttribute("value").toString().equals("")) {
+		if (!element.getAttribute("value").toString().equals("")) {
 			element.sendKeys(Keys.CONTROL + "a");
 			try {
 				Thread.sleep(200);

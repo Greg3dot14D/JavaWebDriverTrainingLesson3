@@ -11,13 +11,10 @@ public interface FilmHelper {
 	List<Film> search(String title);
 	Film getFilmFromGrigByIndex(int index);
 	void clearFilter();
-	int getRecordsCount();
+	int getRecordCount();
 	boolean filmWasNotAdded();
 	boolean filmWasAdded();
-	boolean filmWasDeleted(Film film);
 	String searchNotValidTitleInFilmList(List<Film> films, String title);
-	List<Film> getFilmListFormGrid();
 	boolean gridIsEmpty();
-	boolean filmListContains(List<Film> films, Film searchFilm);
 	boolean filmListContains(Film searchFilm);
 }

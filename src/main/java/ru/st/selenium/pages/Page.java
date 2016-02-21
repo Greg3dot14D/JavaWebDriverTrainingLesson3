@@ -1,9 +1,7 @@
 package ru.st.selenium.pages;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import ru.greg3d.util.Fields;
@@ -21,8 +19,6 @@ public abstract class Page {
 	protected WebDriverWait wait;
 	protected PageManager pages;
 
-	private boolean acceptNextAlert = true;
-	
 	/*
 	 * Constructor injecting the WebDriver interface
 	 * 
@@ -63,23 +59,8 @@ public abstract class Page {
 		}
 	}
 	
-	protected String closeAlertAndGetItsText() {
-		try {
-			Alert alert = driver.switchTo().alert();
-			String alertText = alert.getText();
-			if (acceptNextAlert) {
-				alert.accept();
-			} else {
-				alert.dismiss();
-			}
-			return alertText;
-		} 
-		finally {
-			acceptNextAlert = true;
-			// дожидаемся обновления страницы
-			WaitUtils.WaitPageIsNotActive(driver);
-			WaitUtils.WaitPageIsActive(driver);
-		}
+	public boolean waitPageRefreshed(){
+		WaitUtils.WaitPageIsNotActive(driver);
+		return WaitUtils.WaitPageIsActive(driver);
 	}
-	
 }

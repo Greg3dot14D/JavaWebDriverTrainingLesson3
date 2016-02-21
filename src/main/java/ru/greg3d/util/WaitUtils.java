@@ -19,7 +19,7 @@ public class WaitUtils {
 		//
 		// Дожидаемся состояния страницы $.active = 0
 		//
-	public static void WaitPageIsActive(WebDriver driver){
+	public static boolean WaitPageIsActive(WebDriver driver){
     	WebDriverWait wait = new WebDriverWait(driver, 5000);
     	try{
     	wait.until(new ExpectedCondition<Boolean>(){
@@ -29,13 +29,16 @@ public class WaitUtils {
         		return false;
             }
          });
-    	}catch(Exception e){}
+    	}catch(Exception e){
+    		return false;
+    	}
+    	return true;
     }
 	
 		//
 		// Дожидаемся состояния страницы $.active = 1
 		//
-	public static void WaitPageIsNotActive(WebDriver driver){
+	public static boolean WaitPageIsNotActive(WebDriver driver){
     	WebDriverWait wait = new WebDriverWait(driver, 5/100, 100);
 
     	try{
@@ -46,6 +49,9 @@ public class WaitUtils {
         		return false;
             }
          });
-    	}catch(Exception e){}
+    	}catch(Exception e){
+    		return false;
+    	}
+    	return true;
     }		
 }
